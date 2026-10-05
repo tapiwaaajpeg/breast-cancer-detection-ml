@@ -50,13 +50,17 @@ The project follows six stages of the classical ML workflow.
 Evaluated on the 114-sample test set:
 
 | Model | TN | FP | FN | TP | Accuracy | AUC |
+
 | SVM (linear) | 68 | 3 | 2 | 41 | ~0.956 | ~0.99 to 1.00 |
+
 | Decision Tree (depth 4) | 68 | 3 | 3 | 40 | ~0.947 | ~0.94 |
 
 Malignant-class metrics derived from the confusion matrices:
 
 | Model | Precision | Recall | F1 |
+
 | SVM | 0.93 | 0.95 | 0.94 |
+
 | Decision Tree | 0.93 | 0.93 | 0.93 |
 
 **Feature importance**
