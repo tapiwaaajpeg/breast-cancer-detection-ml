@@ -1,10 +1,7 @@
 # Breast Cancer Detection using Machine Learning (SVM and Decision Tree)
 # Full version with all visualizations and model comparisons
-# Simplified single-file implementation (no directories)
 
-# -------------------------------
 # 1. Import Libraries
-# -------------------------------
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -14,16 +11,13 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier, plot_tree
 
-# -------------------------------
 # 2. Load Dataset
-# -------------------------------
 df = pd.read_csv("C:/Users/geral/Documents/archive/data.csv")
 print("Dataset shape:", df.shape)
 print(df.head())
 
-# -------------------------------
 # 3. Data Cleaning
-# -------------------------------
+
 # Drop unnecessary columns
 df.drop(['id', 'Unnamed: 32'], axis=1, inplace=True)
 
@@ -33,9 +27,7 @@ df['diagnosis'] = df['diagnosis'].map({'M': 1, 'B': 0})
 # Check for missing values
 print("\nMissing values per column:\n", df.isnull().sum())
 
-# -------------------------------
 # 4. Exploratory Data Analysis
-# -------------------------------
 print("\nDataset summary statistics:\n", df.describe())
 
 # Diagnosis Distribution Plot
@@ -53,9 +45,7 @@ plt.title("Feature Correlation Heatmap")
 plt.savefig('correlation_heatmap.png')
 plt.show()
 
-# -------------------------------
 # 5. Data Preparation
-# -------------------------------
 X = df.drop('diagnosis', axis=1)
 y = df['diagnosis']
 
@@ -67,9 +57,7 @@ scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
-# -------------------------------
 # 6. Model Training
-# -------------------------------
 svm_model = SVC(kernel='linear', probability=True, random_state=42)
 svm_model.fit(X_train, y_train)
 svm_pred = svm_model.predict(X_test)
@@ -78,9 +66,7 @@ dt_model = DecisionTreeClassifier(max_depth=4, random_state=42)
 dt_model.fit(X_train, y_train)
 dt_pred = dt_model.predict(X_test)
 
-# -------------------------------
 # 7. Model Evaluation Function
-# -------------------------------
 def evaluate_model(name, y_true, y_pred, model):
     print(f"\n--- {name} Evaluation ---")
     acc = accuracy_score(y_true, y_pred)
@@ -113,15 +99,12 @@ def evaluate_model(name, y_true, y_pred, model):
 
     return acc, roc_auc
 
-# -------------------------------
 # 8. Evaluate Models
-# -------------------------------
 svm_acc, svm_auc = evaluate_model("SVM", y_test, svm_pred, svm_model)
 dt_acc, dt_auc = evaluate_model("Decision Tree", y_test, dt_pred, dt_model)
 
-# -------------------------------
 # 9. Feature Importance Plots
-# -------------------------------
+
 # Decision Tree Feature Importance
 dt_importances = pd.Series(dt_model.feature_importances_, index=X.columns)
 dt_top10 = dt_importances.sort_values(ascending=False).head(10)
@@ -146,9 +129,7 @@ plt.ylabel("Feature")
 plt.savefig('svm_feature_importance.png')
 plt.show()
 
-# -------------------------------
 # 10. Model Comparison Charts
-# -------------------------------
 comparison = pd.DataFrame({
     'Model': ['SVM', 'Decision Tree'],
     'Accuracy': [svm_acc, dt_acc],
@@ -174,9 +155,7 @@ plt.ylim(0.8, 1.0)
 plt.savefig('model_auc_comparison.png')
 plt.show()
 
-# -------------------------------
 # 11. Decision Tree Visualization
-# -------------------------------
 plt.figure(figsize=(20, 10))
 plot_tree(dt_model, filled=True, feature_names=X.columns, class_names=['Benign', 'Malignant'])
 plt.title("Decision Tree Visualization")
